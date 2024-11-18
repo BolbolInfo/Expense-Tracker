@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Welcome to the Expense Tracker</h1>
+    
+    <a href="/add_expense" class="btn">Add Expense</a>
+    <br><br>
+    
+    <form action="/view_chart" method="POST">
+        <label for="date_filter">Select a Time Period for the Chart:</label>
+        
+        <br><br>
+
+        <!-- Custom Date Range Input (appears when Custom is selected) -->
+        <div id="custom-dates">
+            <label for="start_date">Start Date:</label>
+            <input type="date" name="start_date" id="start_date">
+            <br>
+            <label for="end_date">End Date:</label>
+            <input type="date" name="end_date" id="end_date">
+        </div>
+
+        <button type="submit" class="btn">View Chart</button>
+    </form>
+
+
+
+</body>
+</html>

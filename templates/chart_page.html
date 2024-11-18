@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Chart</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Expense Chart</h1>
+    
+    <!-- Display the chart -->
+    <img src="{{ url_for('static', filename='charts/' + chart_filename) }}" alt="Expense Chart" style="width: 50%;">
+
+    <h2>Total Expenses: ${{ total_amount }}</h2>
+
+    <!-- Table for detailed breakdown -->
+    <h3>Expense Details</h3>
+    <table border="1" cellpadding="10" cellspacing="0" class="details_table">
+        <thead>
+            <tr>
+                <th>Date & Time</th>
+                <th>Category</th>
+                <th>Amount</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for date, category, amount, description in detailed_expenses %}
+            <tr>
+                <td>{{ date }}</td>
+                <td>{{ category }}</td>
+                <td>${{ amount }}</td>
+                <td>{{ description }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+    <a href="/" class="btn">Back to Home</a>
+</body>
+</html>
