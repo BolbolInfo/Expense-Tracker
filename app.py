@@ -143,6 +143,6 @@ def chart_page(filename):
     return render_template('chart_page.html', chart_filename=filename)
 
 if __name__ == '__main__':
-    CAT = ["food", "transport", "smoke", "coffee"]
+    CAT = ["Food", "Transport", "Smoke", "Coffee","Oher"]
     createDB(CAT)
     app.run(debug=True)
