@@ -8,11 +8,11 @@
 </head>
 <body>
     <h1>Expense Chart</h1>
-    
+    <h3>You have {{current}}</h3>
     <!-- Display the chart -->
     <img src="{{ url_for('static', filename='charts/' + chart_filename) }}" alt="Expense Chart" style="width: 50%;">
 
-    <h2>Total Expenses: ${{ total_amount }}</h2>
+    <h2>Total Expenses: {{ total_amount }}</h2>
 
     <!-- Table for detailed breakdown -->
     <h3>Expense Details</h3>
@@ -30,7 +30,7 @@
             <tr>
                 <td>{{ date }}</td>
                 <td>{{ category }}</td>
-                <td>${{ amount }}</td>
+                <td>{{ amount }}</td>
                 <td>{{ description }}</td>
             </tr>
             {% endfor %}

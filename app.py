@@ -15,6 +15,23 @@ def createDB(CAT):
     cur = con.cursor()
 
     cur.execute("""
+    CREATE TABLE IF NOT EXISTS Money(
+                ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                amount INT DEFAULT 0
+                )
+    """)
+    con.commit()
+    try:
+        cur.execute("SELECT amount from Money where id=1")
+        con.commit()
+        if len(cur.fetchall())==0:
+
+            cur.execute("INSERT INTO Money VALUES(1,?)", (0,))
+            con.commit()
+    except:
+        pass
+
+    cur.execute("""
     CREATE TABLE IF NOT EXISTS category(
                 name VARCHAR(20) PRIMARY KEY
                 )
@@ -76,7 +93,8 @@ def get_expenses_details(start_date, end_date):
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    total_amount = get_money()
+    return render_template('home.html',total_amount=total_amount)
 
 @app.route('/add_expense')
 def add_expense():
@@ -94,6 +112,7 @@ def submit():
     cur.execute("INSERT INTO data (date, category, amount, description) VALUES (datetime('now'), ?, ?, ?)", (category, amount, description))
     con.commit()
     con.close()
+    decrece_money(amount)
 
     return redirect('/')
 
@@ -127,19 +146,69 @@ def view_chart():
     chart_filepath = os.path.join(CHARTS_DIR, chart_filename)
     fig.savefig(chart_filepath)
     plt.close(fig)
-
+    current=get_money()
     return render_template(
         'chart_page.html',
         chart_filename=chart_filename,
         detailed_expenses=detailed_expenses,
-        total_amount=total_amount
+        total_amount=total_amount,
+        current=current
     )
 
+def get_money():
+    con = sq.connect(os.path.join(os.path.dirname(__file__), "data", "dataBase.db"))
+    cur = con.cursor()
+    cur.execute("select amount from Money where id = 1")
+    con.commit()
+    amount=cur.fetchall()[0][0]
+    con.close()
+    return amount
+
+
+def add_money(amount):
+    con = sq.connect(os.path.join(os.path.dirname(__file__), "data", "dataBase.db"))
+    cur = con.cursor()
+    cur.execute("update Money set amount=amount+? where id =1",(amount,))
+    con.commit()
+    con.close()
+
+def set_money(amount):
+    con = sq.connect(os.path.join(os.path.dirname(__file__), "data", "dataBase.db"))
+    cur = con.cursor()
+    cur.execute("update Money set amount=? where id =1",(amount,))
+    con.commit()
+    con.close()
+
+def decrece_money(amount):
+    con = sq.connect(os.path.join(os.path.dirname(__file__), "data", "dataBase.db"))
+    cur = con.cursor()
+    cur.execute("update Money set amount=amount-? where id =1",(amount,))
+    con.commit()
+    con.close()
+
+@app.route('/money')
+def money():
+    return render_template('money.html')
+
+
+@app.route('/get_money_action', methods=['GET', 'POST'])
+def get_money_action():
+    add = request.form.get('add_amount', None)
+    set = request.form.get('set_amount', None)
+    if add!='':
+        add=int(add)
+        add_money(add)
+    elif set!='':
+        set=int(set)
+        set_money(set)
+    else:
+        pass
+    total_amount = get_money()
+    return render_template('home.html',total_amount=total_amount)
 
 
 @app.route('/chart_page/<filename>')
 def chart_page(filename):
-
     return render_template('chart_page.html', chart_filename=filename)
 
 if __name__ == '__main__':

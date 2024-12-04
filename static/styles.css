@@ -60,4 +60,9 @@ button:hover {
 .btn:hover {
     background-color: #0056b3;
 }
+.buttoncontainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
 

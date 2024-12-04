@@ -8,11 +8,14 @@
 </head>
 <body>
     <h1>Welcome to the Expense Tracker</h1>
-    
-    <a href="/add_expense" class="btn">Add Expense</a>
+    <div class="buttoncontainer">
+        <a href="/add_expense" class="btn">Add Expense</a>
+        <a href="/money" class="btn">Add Money</a>
+    </div>
     <br><br>
     
     <form action="/view_chart" method="POST">
+        <h3>You have {{total_amount}}</h3>
         <label for="date_filter">Select a Time Period for the Chart:</label>
         
         <br><br>

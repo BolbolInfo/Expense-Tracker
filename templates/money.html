@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Money</title>
+</head>
+<body>
+    <h1>Money Management</h1>
+    <form action="/get_money_action" method="POST">
+        <label for="add_amount">add money:</label>
+        <input type="number" name="add_amount" id="add_amount">
+        <p>OR</p>
+        <label for="set_amount">set money:</label>
+        <input type="number" name="set_amount" id="set_amount">
+        <button type="submit" class="btn">Submit</button>
+
+    </form>
+
+</body>
+</html>
